@@ -6,7 +6,7 @@ router
     .get(getAllThought);
     
 router
-    .route('/:thoughtId')
+    .route('/:id')
     .get(getThoughtById);
 
 router

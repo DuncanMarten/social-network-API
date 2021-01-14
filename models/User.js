@@ -5,19 +5,14 @@ const UserSchema = new Schema(
         username: {
             type: String,
             unique: true,
-            required: true,
+            required: [true, 'Username is Required!'],
             trim: true
         },
         email: {
             type: String,
             unique: true,
-            required: true,
-            validate: {
-                validator: function(v) {
-                    return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(v);
-                },
-                message: given => `${given.value} is not a valid email address!`
-            }
+            required: [true, 'Email is Required!'],
+            match: [/.+@.+\..+/, 'Please enter a valid e-mail address']
         },
         thoughts: [
             {
