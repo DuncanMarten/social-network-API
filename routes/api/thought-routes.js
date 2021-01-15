@@ -7,6 +7,7 @@ router
     
 router
     .route('/:id')
+    .post(updateThought)
     .get(getThoughtById);
 
 router
@@ -15,7 +16,6 @@ router
 
 router
     .route('/:userId/:thoughtId')
-    .put(updateThought)
     .delete(removeThought);
 
 router

@@ -81,12 +81,19 @@ const userController = {
     },
 
     // add friend to user's friend list
-    addFriend({ params, body }, res) {
-        User.findOneAndUpdate (
-            { _id: params.id },
-            { $push: { friends: body } },
-            { new: true, runValidators: true }
-        )
+    addFriend({ params }, res) {
+        User.findOne({ _id: params.friendId})
+            .then(addedFriend => {
+                if(!addedFriend) {
+                    res.status(404).json({ message: 'No friend found with this id!' });
+                    return;
+                }
+                return User.findOneAndUpdate(
+                    { _id: params.userId },
+                    { $push: { friends: params.friendId } },
+                    { new: true }
+                );
+            })
             .then(dbUserData => {
                 if(!dbUserData) {
                     res.status(404).json({ message: 'No user found with this id!' });
@@ -102,11 +109,18 @@ const userController = {
 
     // delete friend from user's friend list
     deleteFriend({params}, res) {
-        User.findOneAndUpdate(
-            { _id: params.id },
-            { $pull: { friends: { friendId: params.friendId} } },
-            { new: true }
-        )
+        User.findOne({ _id: params.friendId})
+            .then(deletedFriend => {
+                if(!deletedFriend) {
+                    res.status(404).json({ message: 'No friend found with this id!' });
+                    return;
+                }
+                return User.findOneAndUpdate(
+                    { _id: params.userId },
+                    { $pull: { friends: params.friendId } },
+                    { new: true }
+                );
+            })
             .then(dbUserData => {
                 if(!dbUserData) {
                     res.status(404).json({ message: 'No user found with this id!' });
