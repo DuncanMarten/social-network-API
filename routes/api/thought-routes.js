@@ -7,7 +7,7 @@ router
     
 router
     .route('/:id')
-    .post(updateThought)
+    .put(updateThought)
     .get(getThoughtById);
 
 router
